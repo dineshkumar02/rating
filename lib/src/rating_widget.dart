@@ -118,7 +118,9 @@ class _RatingWidgetState extends State<RatingWidget> {
                         ),
                         onTap: (startLoading, stopLoading, btnState) async {
                           if (btnState == ButtonState.Idle) {
+                            startLoading();
                             controller.ratingCubit.saveRate(selectedRate);
+                            stopLoading();
                           }
                         },
                       ),
