@@ -19,16 +19,8 @@ class RatingCubit extends Cubit<RatingState> {
 
   final selectedCriterions = <RatingCriterionModel>{};
 
-  Future<void> ignoreForEver() async {
-    try {
-      emit(LoadingState("Cancelando..."));
-      await _ignoreForEverCallback.call();
-      emit(CloseDialogState(true));
-    } catch (ex, stack) {
-      debugPrint('$ex');
-      // addError(ex);
-      emit(CloseDialogState(false));
-    }
+  Future<void> ignoreForEver() {
+    return _ignoreForEverCallback.call();
   }
 
   void selectedCriterionsUpdate(RatingCriterionModel criterion, bool isAdded) {
@@ -37,15 +29,7 @@ class RatingCubit extends Cubit<RatingState> {
     emit(SelectedCriterionsState(selectedCriterions));
   }
 
-  void saveRate(int rate) async {
-    try {
-      emit(LoadingState("Enviando Avaliação..."));
-      await _saveRatingCallback.call(rate, selectedCriterions.toList());
-      emit(CloseDialogState(false));
-    } catch (ex, stack) {
-      debugPrint('$ex');
-      // addError(ex);
-      emit(CloseDialogState(false));
-    }
+  Future saveRate(int rate) {
+    return _saveRatingCallback.call(rate, selectedCriterions.toList());
   }
 }

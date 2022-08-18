@@ -79,7 +79,7 @@ class _RatingWidgetState extends State<RatingWidget> {
                 AnimatedContainer(
                   duration: animationDuration,
                   curve: animationCurve,
-                  width: selectedRate == 0 ? MediaQuery.of(context).size.width * 0.8 : MediaQuery.of(context).size.width * 0.4,
+                  width: selectedRate == 0 ? MediaQuery.of(context).size.width * 0.4 : MediaQuery.of(context).size.width * 0.6,
                   child: FittedBox(
                     child: StarsWidget(
                       selectedColor: Colors.amber,
@@ -117,10 +117,17 @@ class _RatingWidgetState extends State<RatingWidget> {
                           ),
                         ),
                         onTap: (startLoading, stopLoading, btnState) async {
+                          // If there is no rating, then just do nothing
+                          if (selectedRate == 0) {
+                            return;
+                          }
+
                           if (btnState == ButtonState.Idle) {
                             startLoading();
-                            controller.ratingCubit.saveRate(selectedRate);
-                            stopLoading();
+                            await controller.ratingCubit.saveRate(selectedRate).then((_) {}).whenComplete(() {
+                              stopLoading();
+                              CloseDialogState(false);
+                            });
                           }
                         },
                       ),
