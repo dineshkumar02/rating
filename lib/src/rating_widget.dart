@@ -126,7 +126,7 @@ class _RatingWidgetState extends State<RatingWidget> {
                             startLoading();
                             await controller.ratingCubit.saveRate(selectedRate).then((_) {}).whenComplete(() {
                               stopLoading();
-                              CloseDialogState(true);
+                              Navigator.of(context).pop();
                             });
                           }
                         },
