@@ -100,32 +100,27 @@ class _RatingWidgetState extends State<RatingWidget> {
                       style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 20),
-                    AnimatedOpacity(
-                      duration: animationDuration,
-                      curve: animationCurve,
-                      opacity: selectedRate == 0 ? 0 : 1,
-                      child: Center(
-                        child: ArgonButton(
-                          height: MediaQuery.of(context).size.height * 0.2,
-                          width: MediaQuery.of(context).size.width * 0.5,
-                          borderRadius: 5.0,
-                          color: Theme.of(context).colorScheme.errorContainer,
-                          child: Text(
-                            "Save",
-                            style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Theme.of(context).colorScheme.onErrorContainer),
-                          ),
-                          loader: Container(
-                            padding: const EdgeInsets.all(10),
-                            child: SpinKitRotatingCircle(
-                              color: Theme.of(context).colorScheme.onBackground,
-                            ),
-                          ),
-                          onTap: (startLoading, stopLoading, btnState) async {
-                            if (btnState == ButtonState.Idle) {
-                              controller.ratingCubit.saveRate(selectedRate);
-                            }
-                          },
+                    Center(
+                      child: ArgonButton(
+                        height: MediaQuery.of(context).size.height * 0.08,
+                        width: MediaQuery.of(context).size.width * 0.3,
+                        borderRadius: 5.0,
+                        color: Theme.of(context).colorScheme.errorContainer,
+                        child: Text(
+                          "Save",
+                          style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Theme.of(context).colorScheme.onErrorContainer),
                         ),
+                        loader: Container(
+                          padding: const EdgeInsets.all(10),
+                          child: SpinKitRotatingCircle(
+                            color: Theme.of(context).colorScheme.onBackground,
+                          ),
+                        ),
+                        onTap: (startLoading, stopLoading, btnState) async {
+                          if (btnState == ButtonState.Idle) {
+                            controller.ratingCubit.saveRate(selectedRate);
+                          }
+                        },
                       ),
                     ),
                   ],
