@@ -1,9 +1,10 @@
+import 'package:argon_buttons_flutter/argon_buttons_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'rating_controller.dart';
 import 'rating_cubit.dart';
-import 'widgets/default_button.dart';
 import 'widgets/stars_widget.dart';
 
 class RatingWidget extends StatefulWidget {
@@ -92,19 +93,38 @@ class _RatingWidgetState extends State<RatingWidget> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                Stack(
+                Column(
                   children: [
+                    Text(
+                      ratingSurvey,
+                      style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 20),
                     AnimatedOpacity(
                       duration: animationDuration,
                       curve: animationCurve,
                       opacity: selectedRate == 0 ? 0 : 1,
                       child: Center(
-                        child: DefaultButton.text(
-                          "Save",
-                          textColor: Theme.of(context).colorScheme.onErrorContainer,
+                        child: ArgonButton(
+                          height: MediaQuery.of(context).size.height * 0.2,
+                          width: MediaQuery.of(context).size.width * 0.5,
+                          borderRadius: 5.0,
                           color: Theme.of(context).colorScheme.errorContainer,
-                          onPressed: () => controller.ratingCubit.saveRate(selectedRate),
-                          isLoading: isLoading,
+                          child: Text(
+                            "Save",
+                            style: Theme.of(context).textTheme.bodyMedium!.copyWith(color: Theme.of(context).colorScheme.onErrorContainer),
+                          ),
+                          loader: Container(
+                            padding: const EdgeInsets.all(10),
+                            child: SpinKitRotatingCircle(
+                              color: Theme.of(context).colorScheme.onBackground,
+                            ),
+                          ),
+                          onTap: (startLoading, stopLoading, btnState) async {
+                            if (btnState == ButtonState.Idle) {
+                              controller.ratingCubit.saveRate(selectedRate);
+                            }
+                          },
                         ),
                       ),
                     ),
