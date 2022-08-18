@@ -102,7 +102,7 @@ class _RatingWidgetState extends State<RatingWidget> {
                     const SizedBox(height: 20),
                     Center(
                       child: ArgonButton(
-                        height: MediaQuery.of(context).size.height * 0.08,
+                        height: MediaQuery.of(context).size.height * 0.05,
                         width: MediaQuery.of(context).size.width * 0.3,
                         borderRadius: 5.0,
                         color: Theme.of(context).colorScheme.errorContainer,
