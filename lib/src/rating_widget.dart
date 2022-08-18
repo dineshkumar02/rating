@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'rating_controller.dart';
 import 'rating_cubit.dart';
-import 'widgets/criterion_button_widget.dart';
 import 'widgets/default_button.dart';
 import 'widgets/stars_widget.dart';
 
@@ -25,7 +24,7 @@ class _RatingWidgetState extends State<RatingWidget> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       controller.listenStateChanges(context);
     });
   }
@@ -93,43 +92,6 @@ class _RatingWidgetState extends State<RatingWidget> {
                   ),
                 ),
                 const SizedBox(height: 10),
-                AnimatedAlign(
-                  duration: animationDuration,
-                  curve: animationCurve,
-                  alignment: Alignment.topCenter,
-                  heightFactor: selectedRate == 0 ? 0 : 1,
-                  child: AnimatedOpacity(
-                    duration: animationDuration,
-                    curve: animationCurve,
-                    opacity: selectedRate == 0 ? 0 : 1,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const SizedBox(height: 14),
-                        Text(
-                          ratingSurvey,
-                          style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(height: 20),
-                        GridView.count(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 10,
-                          mainAxisSpacing: 10,
-                          childAspectRatio: 2.9,
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          children: List.from(controller.ratingModel.ratingConfig.items.map(
-                            (criterion) => CriterionButton(
-                              text: criterion.name,
-                              onSelectChange: (selected) => controller.ratingCubit.selectedCriterionsUpdate(criterion, selected),
-                            ),
-                          )),
-                        ),
-                        const SizedBox(height: 20),
-                      ],
-                    ),
-                  ),
-                ),
                 Stack(
                   children: [
                     AnimatedOpacity(
@@ -138,35 +100,11 @@ class _RatingWidgetState extends State<RatingWidget> {
                       opacity: selectedRate == 0 ? 0 : 1,
                       child: Center(
                         child: DefaultButton.text(
-                          "CONFIRMAR",
-                          textColor: Colors.white,
-                          color: Theme.of(context).colorScheme.secondary,
-                          outlineColor: Theme.of(context).colorScheme.secondary,
+                          "Save",
+                          textColor: Theme.of(context).colorScheme.onErrorContainer,
+                          color: Theme.of(context).colorScheme.errorContainer,
                           onPressed: () => controller.ratingCubit.saveRate(selectedRate),
                           isLoading: isLoading,
-                        ),
-                      ),
-                    ),
-                    IgnorePointer(
-                      ignoring: selectedRate != 0,
-                      child: AnimatedOpacity(
-                        duration: animationDuration,
-                        curve: animationCurve,
-                        opacity: selectedRate == 0 ? 1 : 0,
-                        child: Align(
-                          alignment: Alignment.bottomCenter,
-                          child: DefaultButton(
-                            outline: false,
-                            flat: true,
-                            color: Colors.transparent,
-                            textColor: const Color(0xFF2F333A),
-                            onPressed: () => controller.ratingCubit.ignoreForEver(),
-                            isLoading: isLoading,
-                            child: const Text(
-                              "Prefiro não classificar",
-                              style: TextStyle(decoration: TextDecoration.underline, color: Colors.black54, fontSize: 12),
-                            ),
-                          ),
                         ),
                       ),
                     ),
